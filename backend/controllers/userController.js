@@ -54,4 +54,31 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const changePassword = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const authHeader = req.headers["authorization"];
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      const token = authHeader.split(" ")[1];
+      const userId = verifyToken(token);
+      const user = await userService.findUserByEmail(email);
+      if (!user) {
+        req.status(404)("No such user exists with this email");
+      }
+      if (user.id !== userId) {
+        req.status(401)("Unauthorized");
+      }
+      await userService.updatePassword({
+        id: userId,
+        email,
+        password: password,
+      });
+      res.status(200).send();
+    }
+  } catch (error) {
+    console.log("Error changing password:", error);
+    res.status(500).json({ error: "Error changing password" });
+  }
+};
+
+module.exports = { register, login, changePassword };

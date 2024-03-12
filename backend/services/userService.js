@@ -16,7 +16,6 @@ const hashPassword = async (password) => {
 };
 
 const createUser = async (user) => {
-  console.log(user);
   const hashedPassword = await hashPassword(user.password);
   const newUser = await User.create({ ...user, password: hashedPassword });
   return newUser.id;
@@ -26,7 +25,14 @@ const findUserByEmail = async (email) => {
   return await User.findOne({ where: { email } });
 };
 
+const updatePassword = async (user) => {
+  const existingUser = await findUserByEmail(user.email);
+  const hashedPassword = await hashPassword(user.password);
+  await existingUser.update({ ...user, password: hashedPassword });
+};
+
 module.exports = {
   createUser,
   findUserByEmail,
+  updatePassword,
 };
