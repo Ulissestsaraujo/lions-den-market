@@ -13,12 +13,13 @@ app.use(bodyParser.json());
 app.use("/products", productRoutes);
 app.use("/user", userRoutes);
 app.listen(PORT, () => {
-  seed();
   // Sync the models with the database (creates tables if they don't exist)
   dbConnection
     .sync()
-    .then(() => console.log("Models synced with the database"))
+    .then(() => seed())
     .catch((err) =>
-      console.error("Error syncing models with the database:", err));
+      console.error("Error syncing models with the database:", err)
+    );
+
   console.log(`Server is running on port ${PORT}`);
 });

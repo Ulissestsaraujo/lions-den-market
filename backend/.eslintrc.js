@@ -15,7 +15,6 @@ module.exports = {
     "no-console": "warn",
     "no-var": "error",
     "linebreak-style": ["error", "unix"],
-    "function-paren-newline": ["error", "multiline"],
     "no-unused-vars": "warn",
   },
 };
