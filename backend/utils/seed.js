@@ -1,4 +1,5 @@
-const { dbConnection, Product, ProductImage } = require("../models/product");
+const {  Product, ProductImage } = require("../models/product");
+const {dbConnection} = require("../models/db")
 
 const fs = require("fs");
 const { getAllProducts } = require("../services/productService");
@@ -40,13 +41,14 @@ function insertAllDummyProducts(products) {
         });
 
         let category = await Category.findOne({
-          where: { category_name: product.category },
+          where: { name: product.category },
         });
 
         if (!category) {
-          category = await Category.create({ category_name: product.category });
+          category = await Category.create({ name: product.category },
+            { transaction: t });
         }
-        await product.setCategory(category);
+        await newProduct.setCategory(category);
       }
       await t.commit();
     })
@@ -55,8 +57,8 @@ function insertAllDummyProducts(products) {
     });
 }
 
-function seed() {
-  let products = getAllProducts();
+async function  seed() {
+  let products = await getAllProducts();
   if (products.length === 0) {
     products = readProducts();
     insertAllDummyProducts(products);

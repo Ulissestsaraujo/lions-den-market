@@ -3,6 +3,7 @@ services:
     image: postgres
     environment:
       - POSTGRES_PASSWORD=postgrespw
+      - POSTGRES_DB=lionsden
     ports:
       - 5432:5432
     volumes:
