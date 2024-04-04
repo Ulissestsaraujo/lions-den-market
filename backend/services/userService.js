@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const User = require("../models/user");
+const { User } = require("../models/user");
 
 const hashPassword = async (password) => {
   try {
@@ -25,6 +25,10 @@ const findUserByEmail = async (email) => {
   return await User.findOne({ where: { email } });
 };
 
+const findUserById = async (id) => {
+  return await User.findOne({ where: { id } });
+};
+
 const updatePassword = async (user) => {
   const existingUser = await findUserByEmail(user.email);
   const hashedPassword = await hashPassword(user.password);
@@ -35,4 +39,5 @@ module.exports = {
   createUser,
   findUserByEmail,
   updatePassword,
+  findUserById
 };

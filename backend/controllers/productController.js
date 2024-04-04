@@ -10,6 +10,16 @@ const getAllProducts = async (req, res) => {
   }
 };
 
+const createProduct = async (req, res) => {
+  try {
+    const user = await productService.createProduct(req.body, req.user.id);
+    res.json(user);
+  } catch (error) {
+    console.error("Error creating products:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 const getProductById = async (req, res) => {
   const productId = req.params.id;
   try {
@@ -24,4 +34,5 @@ const getProductById = async (req, res) => {
 module.exports = {
   getProductById,
   getAllProducts,
+  createProduct
 };
