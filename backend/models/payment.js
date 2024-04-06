@@ -29,7 +29,5 @@ const Payment = dbConnection.define("Payment", {
   },
 });
 
-Order.hasOne(Payment, { foreignKey: "order_id" });
-Payment.belongsTo(Order, { foreignKey: "order_id" });
 
 module.exports = { Payment };

@@ -1,8 +1,8 @@
-const productService = require("../services/productService");
+const jobService = require("../services/jobService");
 
-const getAllProducts = async (req, res) => {
+const getAllJobs = async (req, res) => {
   try {
-    const products = await productService.getAllProducts();
+    const products = await jobService.getAllJobs();
     res.status(200).json(products);
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -10,9 +10,9 @@ const getAllProducts = async (req, res) => {
   }
 };
 
-const createProduct = async (req, res) => {
+const createJob = async (req, res) => {
   try {
-    const user = await productService.createProduct(req.body, req.user.id);
+    const user = await jobService.createJob(req.body, req.user.id);
     res.json(user);
   } catch (error) {
     console.error("Error creating products:", error);
@@ -20,10 +20,10 @@ const createProduct = async (req, res) => {
   }
 };
 
-const getProductById = async (req, res) => {
+const getJobById = async (req, res) => {
   const productId = req.params.id;
   try {
-    const product = await productService.getProductById(productId);
+    const product = await jobService.getJobById(productId);
     res.status(200).json(product);
   } catch (error) {
     console.error("Error fetching product:", error);
@@ -32,7 +32,7 @@ const getProductById = async (req, res) => {
 };
 
 module.exports = {
-  getProductById,
-  getAllProducts,
-  createProduct
+  getJobById,
+  getAllJobs,
+  createJob
 };

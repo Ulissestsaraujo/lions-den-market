@@ -31,14 +31,19 @@ const Job = dbConnection.define("Job", {
 });
 
 const Image = dbConnection.define("Image", {
+  image_id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
   url: {
     type: DataTypes.TEXT,
     allowNull: false
   },
 });
 
-Job.hasMany(Image);
-Image.belongsTo(Job)
+Job.hasMany(Image, { foreignKey: 'job_id' });
+Image.belongsTo(Job, { foreignKey: 'job_id' });
 
 User.belongsToMany(Job, { through: 'UserTookJob', as: "TookJobs" })
 Job.belongsTo(User, { through: 'UserTookJob', as: 'TakenByUser' })
