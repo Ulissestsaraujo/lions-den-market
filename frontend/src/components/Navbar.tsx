@@ -16,12 +16,12 @@ const NavBar = () => {
   };
 
   return (
-    <div className="bg-gray-800 text-white py-4">
-      <nav className="flex justify-between items-center bg-gray-800 text-white py-4 px-8">
+    <div className="bg-background text-white py-2">
+      <nav className="flex justify-between items-center bg-background text-white px-8">
         <div className="flex items-center">
-          <img className="h-16 mr-2 bg-white" src={logo} alt="Logo" />
-          <Link to="/" className="text-lg font-bold">
-            Lion's Den Market
+          <Link to="/" className="text-lg ">
+            <img className="h-32 inline" src={logo} alt="Logo" />
+            <span>Lion's Den Market</span>
           </Link>
         </div>
         <ul className="flex space-x-4">

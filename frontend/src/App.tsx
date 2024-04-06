@@ -8,7 +8,7 @@ import NavBar from "./components/Navbar";
 import Home from "./pages/home/Home";
 function App(): JSX.Element {
   return (
-    <>
+    <div className="bg-details h-full">
       <BrowserRouter>
         <NavBar />
         <Routes>
@@ -17,7 +17,7 @@ function App(): JSX.Element {
           <Route path="/register" element={<Register />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 

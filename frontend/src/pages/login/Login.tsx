@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import "../pages.css";
 
 interface ILoginFormData {
   email: string;
@@ -31,18 +32,18 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Login</h2>
+    <div className="max-w-md mx-auto mt-8 p-8 bg-details shadow-md rounded-md ">
+      <h2 className="text-2xl text-text font-bold mb-4">Login</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm">
         <div className="mb-4">
-          <label className="block mb-1" htmlFor="email">
+          <label className="block mb-1 text-text" htmlFor="email">
             Email
           </label>
           <input
             type="email"
             id="email"
             {...register("email", { required: "Email is required" })}
-            className="border border-gray-400 rounded w-full py-2 px-3"
+            className="text-input"
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
@@ -56,7 +57,7 @@ const Login: React.FC = () => {
             type="password"
             id="password"
             {...register("password", { required: "Password is required" })}
-            className="border border-gray-400 rounded w-full py-2 px-3"
+            className="text-input"
           />
           {errors.password && (
             <p className="text-red-500 text-sm mt-1">
@@ -64,10 +65,7 @@ const Login: React.FC = () => {
             </p>
           )}
         </div>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white rounded py-2 px-4 hover:bg-blue-600"
-        >
+        <button type="submit" className="submit-button">
           Login
         </button>
         {successMessage && (
