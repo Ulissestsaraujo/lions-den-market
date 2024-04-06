@@ -12,8 +12,8 @@ const getAllJobs = async (req, res) => {
 
 const createJob = async (req, res) => {
   try {
-    const user = await jobService.createJob(req.body, req.user.id);
-    res.json(user);
+    const job = await jobService.createJob(req.body, req.user.id);
+    res.json(job);
   } catch (error) {
     console.error("Error creating products:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -31,8 +31,38 @@ const getJobById = async (req, res) => {
   }
 };
 
+const updateJob = async (req, res) => {
+  try {
+    const jobId = req.params.jobId;
+    const userId = req.user.id;
+    const fieldsToUpdate = req.body;
+    await jobService.updateJob(jobId, fieldsToUpdate, userId);
+
+    res.status(200).send();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const deleteJob = async (req, res) => {
+  try {
+    const jobId = req.params.jobId;
+    const userId = req.user.id;
+
+    await jobService.deleteJob(jobId, userId);
+
+    res.status(200).send();
+  } catch (error) {
+    console.error("Error deleting:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   getJobById,
   getAllJobs,
-  createJob
+  createJob,
+  updateJob,
+  deleteJob,
 };
