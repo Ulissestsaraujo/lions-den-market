@@ -10,9 +10,15 @@ const getAllJobs = async (req, res) => {
   }
 };
 
-const createJob = async (req, res) => {
+const createJobAndUploadFiles = async (req, res) => {
   try {
-    const job = await jobService.createJob(req.body, req.user.id);
+    const files = req.files;
+    const { price, description, title, status } = req.body;
+    const job = await jobService.createJobAndUploadFiles(
+      { price, description, title, status },
+      files,
+      req.user.id
+    );
     res.json(job);
   } catch (error) {
     console.error("Error creating products:", error);
@@ -62,7 +68,7 @@ const deleteJob = async (req, res) => {
 module.exports = {
   getJobById,
   getAllJobs,
-  createJob,
+  createJobAndUploadFiles,
   updateJob,
   deleteJob,
 };

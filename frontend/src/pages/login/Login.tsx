@@ -69,7 +69,7 @@ const Login: React.FC = () => {
           Login
         </button>
         {successMessage && (
-          <p className="text-red-500 text-sm mt-1">{successMessage}</p>
+          <p className="text-green-500 text-sm mt-1">{successMessage}</p>
         )}
       </form>
     </div>

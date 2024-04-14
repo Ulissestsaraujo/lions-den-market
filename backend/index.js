@@ -1,15 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors")
+const cors = require("cors");
 const jobRoutes = require("./routes/jobRoutes");
 const userRoutes = require("./routes/userRoutes");
 const { dbConnection } = require("./models/db");
-const path = require('path')
+const path = require("path");
 
 const app = express();
 
 const PORT = process.env.PORT || 3000;
-app.use("/images", express.static(path.join(__dirname, "uploads")));
+app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(bodyParser.json());
 app.use(cors());
 app.use("/jobs", jobRoutes);

@@ -6,35 +6,31 @@ const getAllJobs = async () => {
 
 const getJobById = async (id) => {
   return await Job.findOne({
-    where: { id: id },
+    where: { job_id: id },
     attributes: { exclude: ["owner_user_id"] },
+    include: Image,
   });
 };
 
 const createJob = async (job, userId) => {
-  const newUser = await Job.create({ ...job, owner_user_id: userId });
-  return newUser.id;
+  const newJob = await Job.create({ ...job, owner_user_id: userId });
+  return newJob.job_id;
 };
 
-const uploadFiles = async (req, res) => {
-  console.log("hi");
+const createJobAndUploadFiles = async (job, files, userId) => {
   try {
-    const jobId = req.params.jobId;
-    const files = req.files;
-
-    console.log(req.files);
-
+    if (!userId) {
+      return res.status(400).json({ message: "User ID is required" });
+    }
+    const jobId = await createJob(job, userId);
     const images = await Promise.all(
       files.map(async (file) => {
         const { path } = file;
-        console.log(path);
         return await Image.create({ url: path, job_id: jobId });
       })
     );
-    res.json(images);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server Error uploading images" });
   }
 };
 
@@ -78,7 +74,7 @@ module.exports = {
   getAllJobs,
   getJobById,
   createJob,
-  uploadFiles,
+  createJobAndUploadFiles,
   updateJob,
   deleteJob,
 };

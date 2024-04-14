@@ -28,6 +28,10 @@ const Job = dbConnection.define("Job", {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 });
 
 const Image = dbConnection.define("Image", {
