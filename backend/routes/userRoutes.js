@@ -6,8 +6,10 @@ const {
 } = require("../controllers/userController");
 const router = express.Router();
 
+const { uploadMiddleware } = require("../utils/uploadImagesMiddleware");
+
 // Define routes
-router.post("/register", register);
+router.post("/register", uploadMiddleware.single("images"), register);
 
 router.post("/login", login);
 

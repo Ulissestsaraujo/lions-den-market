@@ -1,4 +1,6 @@
-const { Job, Image } = require("../models/job");
+const { Job } = require("../models/job");
+const { Image } = require("../models/image");
+const { User } = require("../models/user");
 
 const getAllJobs = async () => {
   return await Job.findAll({ include: Image });
@@ -8,12 +10,23 @@ const getJobById = async (id) => {
   return await Job.findOne({
     where: { job_id: id },
     attributes: { exclude: ["owner_user_id"] },
-    include: Image,
+    include: [
+      Image,
+      {
+        model: User,
+        attributes: ["username"],
+        include: Image,
+      },
+    ],
   });
 };
 
 const createJob = async (job, userId) => {
-  const newJob = await Job.create({ ...job, owner_user_id: userId });
+  const newJob = await Job.create({
+    ...job,
+    owner_user_id: userId,
+    status: "OPEN",
+  });
   return newJob.job_id;
 };
 
@@ -23,7 +36,7 @@ const createJobAndUploadFiles = async (job, files, userId) => {
       return res.status(400).json({ message: "User ID is required" });
     }
     const jobId = await createJob(job, userId);
-    const images = await Promise.all(
+    await Promise.all(
       files.map(async (file) => {
         const { path } = file;
         return await Image.create({ url: path, job_id: jobId });

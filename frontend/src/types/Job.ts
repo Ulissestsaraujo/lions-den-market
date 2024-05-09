@@ -10,6 +10,10 @@ export interface Job {
   updatedAt: string;
   TakenByUserId?: number;
   Images: Image[];
+  User: {
+    username: string;
+    Image: Image;
+  };
 }
 
 export interface Image {

@@ -8,10 +8,6 @@ const Job = dbConnection.define("Job", {
     primaryKey: true,
     autoIncrement: true,
   },
-  owner_user_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
   posted_date: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
@@ -34,22 +30,10 @@ const Job = dbConnection.define("Job", {
   },
 });
 
-const Image = dbConnection.define("Image", {
-  image_id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  url: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-});
+User.hasMany(Job, { foreignKey: "taken_job_id" });
+Job.belongsTo(User, { foreignKey: "taken_job_id" });
 
-Job.hasMany(Image, { foreignKey: "job_id" });
-Image.belongsTo(Job, { foreignKey: "job_id" });
+User.hasMany(Job, { foreignKey: "owner_user_id" });
+Job.belongsTo(User, { foreignKey: "owner_user_id" });
 
-User.belongsToMany(Job, { through: "UserTookJob", as: "TookJobs" });
-Job.belongsTo(User, { through: "UserTookJob", as: "TakenByUser" });
-
-module.exports = { Job, Image };
+module.exports = { Job };

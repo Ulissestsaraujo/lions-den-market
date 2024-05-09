@@ -2,15 +2,14 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { createJob } from "../../utils/jobsAgent";
 
-interface FormData {
+interface AddJobFormData {
   title: string;
   price: number;
-  status: string;
   description: string;
 }
 
 const AddJobForm = () => {
-  const { register, handleSubmit } = useForm<FormData>();
+  const { register, handleSubmit } = useForm<AddJobFormData>();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,24 +20,19 @@ const AddJobForm = () => {
     }
   };
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: AddJobFormData) => {
     try {
-      const { title, price, status, description } = data;
+      const { title, price, description } = data;
       const formData = new FormData();
       formData.append("title", title);
       formData.append("price", price.toString());
-      formData.append("status", status);
       formData.append("description", description);
       selectedFiles.forEach((file) => {
         formData.append("images", file);
       });
 
       await createJob(formData);
-
-      // Handle successful upload
-      console.log("Files uploaded successfully");
     } catch (error) {
-      // Handle upload error
       console.error("Error uploading files:", error);
     }
   };
@@ -58,12 +52,6 @@ const AddJobForm = () => {
           {...register("price", { required: true })}
           className="mb-4 p-2 border border-gray-300 rounded-md"
         />
-        <input
-          type="text"
-          placeholder="Status"
-          {...register("status", { required: true })}
-          className="mb-4 p-2 border border-gray-300 rounded-md"
-        />
         <textarea
           placeholder="Description"
           {...register("description", { required: true })}
@@ -73,7 +61,7 @@ const AddJobForm = () => {
           type="file"
           accept="image/*"
           onChange={handleFileChange}
-          multiple // Allow multiple files
+          multiple
           className="mb-4"
         />
         {selectedFiles.length > 0 && (

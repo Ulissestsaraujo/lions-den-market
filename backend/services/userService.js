@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const { User } = require("../models/user");
+const { Image } = require("../models/image");
 
 const hashPassword = async (password) => {
   try {
@@ -15,18 +16,27 @@ const hashPassword = async (password) => {
   }
 };
 
-const createUser = async (user) => {
-  const hashedPassword = await hashPassword(user.password);
-  const newUser = await User.create({ ...user, password: hashedPassword });
-  return newUser.id;
+const createUser = async (user, profilePic) => {
+  try {
+    if (profilePic) {
+      const hashedPassword = await hashPassword(user.password);
+      const newUser = await User.create({ ...user, password: hashedPassword });
+      const { path } = profilePic;
+      await Image.create({ url: path, user_id: newUser.id });
+      return newUser.id;
+    }
+    return;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const findUserByEmail = async (email) => {
-  return await User.findOne({ where: { email } });
+  return await User.findOne({ where: { email }, include: Image });
 };
 
 const findUserById = async (id) => {
-  return await User.findOne({ where: { id } });
+  return await User.findOne({ where: { id }, include: Image });
 };
 
 const updatePassword = async (user) => {
@@ -39,5 +49,5 @@ module.exports = {
   createUser,
   findUserByEmail,
   updatePassword,
-  findUserById
+  findUserById,
 };

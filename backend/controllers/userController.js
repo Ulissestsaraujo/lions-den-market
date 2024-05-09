@@ -29,8 +29,12 @@ const comparePassword = async (plainPassword, hashedPassword) => {
 };
 const register = async (req, res) => {
   try {
+    const file = req.file;
     const { email, password, username } = req.body;
-    const user = await userService.createUser({ email, password, username });
+    const user = await userService.createUser(
+      { email, password, username },
+      file
+    );
     res.json(user);
   } catch (error) {
     console.error("Error fetching products:", error);

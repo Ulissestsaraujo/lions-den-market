@@ -44,9 +44,18 @@ const NavBar = () => {
               </li>
             </>
           )}
-          {isLoggedIn && (<><li><Link to="/create-job" className="hover:underline">
+          {isLoggedIn && (
+            <>
+              <li>
+                <Link to="/create-job" className="hover:underline">
                   Create Job
-                </Link></li><li><button onClick={logout}>Logout</button></li></>)}
+                </Link>
+              </li>
+              <li>
+                <button onClick={logout}>Logout</button>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
     </div>
